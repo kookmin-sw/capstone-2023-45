@@ -5,9 +5,8 @@ import kookmin.software.capstone2023.timebank.domain.model.SocialPlatformType
 
 sealed class LoginUserRequestData {
     data class SocialLoginUserRequestData(
-        @field:NotBlank
         val provider: SocialPlatformType,
-        @field:NotBlank
+        @field:NotBlank(message = "액세스 토큰은 필수입니다.")
         val accessToken: String,
     ) : LoginUserRequestData()
 }
