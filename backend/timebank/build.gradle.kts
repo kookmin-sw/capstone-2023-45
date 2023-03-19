@@ -42,8 +42,11 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+    implementation("com.auth0:java-jwt:4.3.0")
 
     runtimeOnly("mysql:mysql-connector-java:8.0.32")
 
