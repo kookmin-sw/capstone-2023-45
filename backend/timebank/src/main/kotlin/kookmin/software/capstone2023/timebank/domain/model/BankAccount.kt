@@ -1,3 +1,4 @@
+package kookmin.software.capstone2023.timebank.domain.model
 import jakarta.persistence.*
 import kookmin.software.capstone2023.timebank.domain.model.BankBranch
 import kookmin.software.capstone2023.timebank.domain.model.OwnerType

@@ -1,6 +1,4 @@
 package kookmin.software.capstone2023.timebank.domain.model
-
-import BankAccount
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
