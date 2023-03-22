@@ -18,7 +18,7 @@ data class BankAccount(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "branch_id")
-        val branch: BankBranch,
+        var branch: BankBranch,
 
         @Enumerated(EnumType.STRING)
         val ownerType: OwnerType? = null,
@@ -27,7 +27,7 @@ data class BankAccount(
         val accountNumber: String,
 
         @Column(nullable = false)
-        val password: String,
+        var password: String,
 
         @Column(nullable = false)
         var balance: Int,
