@@ -48,6 +48,11 @@ dependencies {
 
     implementation("com.auth0:java-jwt:4.3.0")
 
+    /*
+     비밀번호 암호화 위해 시큐리티 적용
+     */
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     runtimeOnly("mysql:mysql-connector-java:8.0.32")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
