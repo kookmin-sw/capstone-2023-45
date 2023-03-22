@@ -13,8 +13,8 @@ data class BankAccount(
         val id: Long = 0,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "user_id")
-        val user: User,
+        @JoinColumn(name = "account_id")
+        val account: Account,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "branch_id")
