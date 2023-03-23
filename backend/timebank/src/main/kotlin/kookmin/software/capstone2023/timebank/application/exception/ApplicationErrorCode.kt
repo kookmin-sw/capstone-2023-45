@@ -1,8 +1,8 @@
 package kookmin.software.capstone2023.timebank.application.exception
 
 enum class ApplicationErrorCode(
-        val value: String,
-        val message: String,
+    val value: String,
+    val message: String,
 ) {
     // 일반 오류
     BAD_REQUEST("BAD_REQUEST", "잘못된 요청입니다."),
