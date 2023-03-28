@@ -8,13 +8,6 @@ import kookmin.software.capstone2023.timebank.domain.model.auth.SocialPlatformTy
 
 data class BankAccountCreateRequestData(
 
-        @field:NotBlank(message = "액세스 토큰은 필수입니다.")
-        val accessToken: String,
-
-        val userId: Long,
-
-        val accountId: Long,
-
         val branchId: Long,
 
         @field:NotBlank(message = "생성하려는 은행 계정의 패스워드를 보내주세요")

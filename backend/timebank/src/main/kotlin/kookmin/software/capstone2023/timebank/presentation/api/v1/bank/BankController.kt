@@ -1,24 +1,30 @@
 package kookmin.software.capstone2023.timebank.presentation.controller
 
 import kookmin.software.capstone2023.timebank.application.service.bank.BankAccountCreateService
+import kookmin.software.capstone2023.timebank.presentation.api.RequestAttributes
+import kookmin.software.capstone2023.timebank.presentation.api.auth.model.UserAuthentication
+import kookmin.software.capstone2023.timebank.presentation.api.auth.model.UserContext
 import kookmin.software.capstone2023.timebank.presentation.api.v1.bank.model.BankAccountCreateRequestData
 import kookmin.software.capstone2023.timebank.presentation.api.v1.bank.model.BankAccountCreateResponseData
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
+@UserAuthentication
 @RestController
-@RequestMapping("v1/bank/account")
+@RequestMapping("api/v1/bank/account")
 class BankAccountController(
         private val bankAccountCreateService: BankAccountCreateService
 ) {
     @PostMapping
     fun createBankAccount(
+        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @Validated @RequestBody data: BankAccountCreateRequestData
     ):BankAccountCreateResponseData {
+
         val createdBankAccount: BankAccountCreateService.CreatedBankAccount = bankAccountCreateService.createBankAccount(
-            userId = data.userId,
-            accountId = data.accountId,
+            userId = userContext.userId,
+            accountId = userContext.accountId,
             branchId = data.branchId,
             encryptedPin = data.password,
             iv = data.iv,
@@ -27,9 +33,8 @@ class BankAccountController(
         return BankAccountCreateResponseData(
             balance = createdBankAccount.balance,
             accountNumber = createdBankAccount.accountNumber,
-            accountId = createdBankAccount.accountId,
-            userId = createdBankAccount.userId,
             bankAccountId = createdBankAccount.bankAccountId
         )
     }
+
 }
