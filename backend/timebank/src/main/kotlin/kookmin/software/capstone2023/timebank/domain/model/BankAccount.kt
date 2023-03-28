@@ -12,13 +12,9 @@ data class BankAccount(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "account_id")
-        val account: Account,
+        val accountId: Long,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "branch_id")
-        var branch: BankBranch,
+        var branchId: Long,
 
         @Enumerated(EnumType.STRING)
         val ownerType: OwnerType? = null,
@@ -26,8 +22,11 @@ data class BankAccount(
         @Column(nullable = false)
         val accountNumber: String,
 
-        @Column(nullable = false)
+        @Column(nullable = true)
         var password: String,
+
+        @Column(nullable = true)
+        var iv: String,
 
         @Column(nullable = false)
         var balance: Int,

@@ -12,4 +12,5 @@ data class BankBranch(
         val id: Long = 0,
 
         val name: String,
+
 ):BaseTimeEntity()

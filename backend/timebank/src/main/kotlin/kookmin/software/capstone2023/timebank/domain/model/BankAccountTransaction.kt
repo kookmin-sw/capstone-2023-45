@@ -10,9 +10,7 @@ data class BankAccountTransaction(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = 0,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "bank_account_id")
-        val bankAccount: BankAccount,
+        val bankAccountId: Long,
 
         @Enumerated(EnumType.STRING)
         val code: TransactionCode? = null,
