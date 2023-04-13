@@ -29,8 +29,8 @@ class GlobalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ApplicationErrorCode.BAD_REQUEST.value,
-                    message = ApplicationErrorCode.BAD_REQUEST.message
-                )
+                    message = ApplicationErrorCode.BAD_REQUEST.message,
+                ),
             )
     }
 
@@ -40,8 +40,8 @@ class GlobalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ApplicationErrorCode.BAD_REQUEST.value,
-                    message = e.bindingResult.allErrors.firstOrNull()?.defaultMessage
-                )
+                    message = e.bindingResult.allErrors.firstOrNull()?.defaultMessage,
+                ),
             )
     }
 
@@ -51,11 +51,10 @@ class GlobalExceptionHandler {
             .body(
                 ErrorResponse(
                     code = ApplicationErrorCode.BAD_REQUEST.value,
-                    message = e.constraintViolations.firstOrNull()?.message
-                )
+                    message = e.constraintViolations.firstOrNull()?.message,
+                ),
             )
     }
-
 
     @ExceptionHandler(ApplicationException::class)
     fun handleApplicationException(e: ApplicationException): ResponseEntity<ErrorResponse> {

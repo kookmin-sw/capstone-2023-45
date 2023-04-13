@@ -15,4 +15,4 @@ class Account(
 
     @Embedded
     var profile: AccountProfile? = null,
-): BaseTimeEntity()
+) : BaseTimeEntity()

@@ -1,8 +1,5 @@
 package kookmin.software.capstone2023.timebank.domain.model
 import jakarta.persistence.*
-import kookmin.software.capstone2023.timebank.domain.model.BankBranch
-import kookmin.software.capstone2023.timebank.domain.model.OwnerType
-import kookmin.software.capstone2023.timebank.domain.model.User
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -34,5 +31,5 @@ data class BankAccount(
     var balance: BigDecimal,
 
     @Column(nullable = true)
-    val deletedAt: LocalDateTime? = null
-):BaseTimeEntity()
+    val deletedAt: LocalDateTime? = null,
+) : BaseTimeEntity()

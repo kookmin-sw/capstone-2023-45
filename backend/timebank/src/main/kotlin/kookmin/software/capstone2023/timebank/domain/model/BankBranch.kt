@@ -1,7 +1,6 @@
 package kookmin.software.capstone2023.timebank.domain.model
 
 import jakarta.persistence.*
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "BankBranch")
@@ -13,4 +12,4 @@ data class BankBranch(
 
     val name: String,
 
-    ):BaseTimeEntity()
+) : BaseTimeEntity()

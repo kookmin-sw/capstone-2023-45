@@ -1,22 +1,15 @@
 package kookmin.software.capstone2023.timebank.presentation.api.v1
 
-
 import kookmin.software.capstone2023.timebank.application.service.inqui.InquiryService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
+import kookmin.software.capstone2023.timebank.domain.model.Period
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import kookmin.software.capstone2023.timebank.domain.repository.InquiryRepository
-import kookmin.software.capstone2023.timebank.domain.model.Inquiry
-import kookmin.software.capstone2023.timebank.domain.model.Period
-import java.security.Principal
 import java.util.*
-
 
 @RestController
 @RequestMapping("/api/v1/inquiries")
 class InquiryController(
-        private val inquiryService: InquiryService
+    private val inquiryService: InquiryService,
 ) {
     /**
      * 문의 작성
@@ -40,9 +33,8 @@ class InquiryController(
      */
     @GetMapping("/{id}")
     fun getInquiryById(@PathVariable id: Long): InquiryService.InquiryDto {
-         return inquiryService.getInquiryById(id)
+        return inquiryService.getInquiryById(id)
     }
-
 
     /**
      * userId검색 조회
@@ -51,6 +43,7 @@ class InquiryController(
     fun getInquiriesByUserId(@PathVariable userId: Long): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiriesByUserId(userId)
     }
+
     /**
      * 문의 기간 조회
      */
@@ -83,6 +76,4 @@ class InquiryController(
         inquiryService.deleteInquiryByUserId(userId, inquiryId)
         return ResponseEntity.noContent().build()
     }
-
-
 }

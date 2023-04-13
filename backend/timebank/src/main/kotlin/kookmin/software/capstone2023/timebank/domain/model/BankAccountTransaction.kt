@@ -27,4 +27,4 @@ data class BankAccountTransaction(
 
     @Column(nullable = false)
     val transactionAt: LocalDateTime = LocalDateTime.now(),
-):BaseTimeEntity()
+) : BaseTimeEntity()

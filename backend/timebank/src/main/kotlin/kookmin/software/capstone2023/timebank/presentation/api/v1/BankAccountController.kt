@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/v1/bank/account")
 class BankAccountController(
     private val bankAccountCreateService: BankAccountCreateService,
-    private val bankAccountReadService: BankAccountReadService
+    private val bankAccountReadService: BankAccountReadService,
 ) {
     @PostMapping
     fun createBankAccount(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
-        @Validated @RequestBody data: BankAccountCreateRequestData
+        @Validated @RequestBody
+        data: BankAccountCreateRequestData,
     ): BankAccountCreateResponseData {
-
         val createdBankAccount: BankAccountCreateService.CreatedBankAccount = bankAccountCreateService.createBankAccount(
             userId = userContext.userId,
             accountId = userContext.accountId,
@@ -35,7 +35,7 @@ class BankAccountController(
         return BankAccountCreateResponseData(
             balance = createdBankAccount.balance,
             accountNumber = createdBankAccount.accountNumber,
-            bankAccountId = createdBankAccount.bankAccountId
+            bankAccountId = createdBankAccount.bankAccountId,
         )
     }
 
@@ -43,19 +43,19 @@ class BankAccountController(
     @GetMapping
     fun readBankAccount(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
-        @Validated @RequestBody data: BankAccountReadRequestData
-    ): BankAccountReadResponseData{
-
+        @Validated @RequestBody
+        data: BankAccountReadRequestData,
+    ): BankAccountReadResponseData {
         val readedBankAccount: BankAccountReadService.ReadedBankAccount = bankAccountReadService.readBankAccount(
             userId = userContext.userId,
             accountId = userContext.accountId,
-            bankAccountId = data.bankAccountId
+            bankAccountId = data.bankAccountId,
         )
 
         return BankAccountReadResponseData(
             balance = readedBankAccount.balance,
             accountNumber = readedBankAccount.accountNumber,
-            bankAccountId = readedBankAccount.bankAccountId
+            bankAccountId = readedBankAccount.bankAccountId,
         )
     }
 }
