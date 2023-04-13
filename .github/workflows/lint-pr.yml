@@ -8,6 +8,9 @@ jobs:
   ktlint:
     name: Check Code Quality
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/timebank
 
     steps:
       - name: Clone repo
