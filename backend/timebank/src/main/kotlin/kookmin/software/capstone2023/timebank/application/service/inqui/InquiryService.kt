@@ -5,14 +5,13 @@ import kookmin.software.capstone2023.timebank.application.exception.NotFoundExce
 import kookmin.software.capstone2023.timebank.application.exception.UnauthorizedException
 import kookmin.software.capstone2023.timebank.domain.model.Inquiry
 import kookmin.software.capstone2023.timebank.domain.model.InquiryStatus
-import kookmin.software.capstone2023.timebank.domain.model.User
+import kookmin.software.capstone2023.timebank.domain.model.Period
 import kookmin.software.capstone2023.timebank.domain.repository.InquiryRepository
 import kookmin.software.capstone2023.timebank.domain.repository.UserJpaRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import kookmin.software.capstone2023.timebank.domain.model.Period
 
 @Service
 class InquiryService(
@@ -47,8 +46,9 @@ class InquiryService(
      * 수정 Dto
      */
     data class InquiryUpdateRequest(
-            val updateTitle: String,
+            val updateTitle: String?,
             val updateContent: String?,
+            val userId: Long,
             val updateDate: LocalDateTime? = LocalDateTime.now()
     )
 
@@ -116,9 +116,12 @@ class InquiryService(
     /**
      * 문의 수정 service
      */
-    fun updateInquiry(id: Long, request: InquiryUpdateRequest): InquiryDto {
+    fun updateInquiry(id: Long, request: InquiryUpdateRequest, userId: Long): InquiryDto {
         val inquiry = inquiryRepository.findById(id)
                 .orElseThrow { NotFoundException(message = "\"Inquiry not found with id: $id\"") }
+        if (userId != request.userId) {
+            throw UnauthorizedException(message = "수정 권한이 없습니다.")
+        }
         inquiry.content = request.updateContent ?: inquiry.content
         inquiry.title = request.updateTitle ?: inquiry.title
         inquiry.inquiryDate = request.updateDate ?: inquiry.inquiryDate

@@ -2,14 +2,9 @@ package kookmin.software.capstone2023.timebank.presentation.api.v1
 
 
 import kookmin.software.capstone2023.timebank.application.service.inqui.InquiryService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
+import kookmin.software.capstone2023.timebank.domain.model.Period
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import kookmin.software.capstone2023.timebank.domain.repository.InquiryRepository
-import kookmin.software.capstone2023.timebank.domain.model.Inquiry
-import kookmin.software.capstone2023.timebank.domain.model.Period
-import java.security.Principal
 import java.util.*
 
 
@@ -70,9 +65,9 @@ class InquiryController(
     /**
      * 문의 수정
      */
-    @PutMapping("/{id}")
-    fun updateInquiry(@PathVariable id: Long, @RequestBody request: InquiryService.InquiryUpdateRequest): InquiryService.InquiryDto {
-        return inquiryService.updateInquiry(id, request)
+    @PutMapping("/users/{userId}/{id}")
+    fun updateInquiry(@PathVariable id: Long, @RequestBody request: InquiryService.InquiryUpdateRequest, @PathVariable userId: Long): InquiryService.InquiryDto {
+        return inquiryService.updateInquiry(id, request,userId)
     }
 
     /**
