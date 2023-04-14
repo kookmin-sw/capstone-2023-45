@@ -53,6 +53,13 @@ class InquiryController(
     fun getInquiriesByPeriod(@RequestParam("period") period: Period): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiriesByPeriod(period)
     }
+    /**
+     * 문의 기간 조회 for user
+     */
+    @GetMapping("/users/{userId}/period")
+    fun getUserInquiriesByPeriod(@RequestParam("period") period: Period, @PathVariable userId: Long): List<InquiryService.InquiryDto>{
+        return inquiryService.getUserInquiriesByPeriod(period, userId)
+    }
 
     /**
      * 문의 제목 조회
