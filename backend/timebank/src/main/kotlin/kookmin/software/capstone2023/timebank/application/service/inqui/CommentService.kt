@@ -3,12 +3,10 @@ package kookmin.software.capstone2023.timebank.application.service.inqui
 
 import kookmin.software.capstone2023.timebank.application.exception.UnauthorizedException
 import kookmin.software.capstone2023.timebank.domain.model.Comment
-import kookmin.software.capstone2023.timebank.domain.model.Inquiry
 import kookmin.software.capstone2023.timebank.domain.model.InquiryStatus
-import kookmin.software.capstone2023.timebank.domain.model.User
+import kookmin.software.capstone2023.timebank.domain.repository.CommentRepository
 import kookmin.software.capstone2023.timebank.domain.repository.InquiryRepository
 import kookmin.software.capstone2023.timebank.domain.repository.UserJpaRepository
-import kookmin.software.capstone2023.timebank.domain.repository.CommentRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -116,6 +114,9 @@ class CommentService (
     fun updateComment(id: Long, request: CommentUpdateRequest): CommentDto {
         val comment = commentRepository.findById(id)
                 .orElseThrow { UnauthorizedException(message = "\"Comment not found with id: $id\"") }
+//        if (userId != request.userId){
+//            throw UnauthorizedException(message = "수정 권한이 없습니다.")
+//        }
         comment.content = request.content ?: comment.content
         comment.commentDate = request.commentDate ?: comment.commentDate
         val updatedComment = commentRepository.save(comment)
