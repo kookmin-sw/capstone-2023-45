@@ -61,6 +61,13 @@ class InquiryController(
     fun getInquiriesByTitle(@RequestParam("title") title: String): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiryByTitle(title)
     }
+    /**
+     * 문의 제목 조회 for user
+     */
+    @GetMapping("/users/{uesrId}/search")
+    fun getUserInquiriesByTitle(@RequestParam("title") title: String, @PathVariable userId: Long): List<InquiryService.InquiryDto>{
+        return inquiryService.getUserInquiryByTitle(title, userId)
+    }
 
     /**
      * 문의 수정

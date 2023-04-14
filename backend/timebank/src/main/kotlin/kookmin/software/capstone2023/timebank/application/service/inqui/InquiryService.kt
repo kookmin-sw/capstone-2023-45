@@ -111,6 +111,13 @@ class InquiryService(
         val inquiries = inquiryRepository.findByTitleContainingIgnoreCase(title)
         return inquiries.map { inquiryToDto(it) }
     }
+    /**
+     * 문의 제목 검색 for user
+     */
+    fun getUserInquiryByTitle(title: String, userId: Long): List<InquiryDto>{
+        val inquiries = inquiryRepository.findByTitleContainingIgnoreCaseAndUserId(title, userId)
+        return inquiries.map { inquiryToDto(it) }
+    }
 
 
     /**
