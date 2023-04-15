@@ -11,6 +11,7 @@ interface InquiryRepository : JpaRepository<Inquiry, Long> {
     fun findByUser(user: User): List<Inquiry>
     fun findByUserId(userId: Long): List<Inquiry>
     fun findByTitleContainingIgnoreCase(title: String): List<Inquiry>
+    fun findByTitleContainingIgnoreCaseAndUserId(title: String, userId: Long): List<Inquiry>
     fun findByInquiryDateBetween(start: LocalDateTime, end: LocalDateTime): List<Inquiry>
-    fun findByInquiryDateBetweenAndUser(start: LocalDateTime, end: LocalDateTime, userId: Long): List<Inquiry>
+    fun findByInquiryDateBetweenAndUserId(start: LocalDateTime, end: LocalDateTime, userId: Long): List<Inquiry>
 }
