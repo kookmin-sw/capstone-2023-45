@@ -123,11 +123,16 @@ class InquiryController(
     /**
      * 문의 수정
      */
-    @PutMapping("/{id}")
+    @PutMapping("/users/{userId}/{id}")
     fun updateInquiry(
+        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @PathVariable id: Long,
-        @RequestBody request: InquiryService.InquiryUpdateRequest,
+        @PathVariable userId: Long,
+        @RequestBody request: InquiryService.InquiryUpdateRequest
     ): InquiryService.InquiryDto {
+        if (userContext.userId != userId) {
+            throw UnauthorizedException(message = "수정 권한이 없습니다.")
+        }
         return inquiryService.updateInquiry(id, request)
     }
 
@@ -135,7 +140,16 @@ class InquiryController(
      * 문의 삭제
      */
     @DeleteMapping("/users/{userId}/{inquiryId}")
-    fun deleteInquiryByUserId(@PathVariable userId: Long, @PathVariable inquiryId: Long): ResponseEntity<Unit> {
+    fun deleteInquiryByUserId(
+        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
+        @PathVariable userId: Long,
+        @PathVariable inquiryId: Long
+    ): ResponseEntity<Unit> {
+        if (userContext.accountType == AccountType.INDIVIDUAL) {
+            if (userContext.userId != userId) {
+                throw UnauthorizedException(message = "삭제 권한이 없습니다.")
+            }
+        }
         inquiryService.deleteInquiryByUserId(userId, inquiryId)
         return ResponseEntity.noContent().build()
     }
