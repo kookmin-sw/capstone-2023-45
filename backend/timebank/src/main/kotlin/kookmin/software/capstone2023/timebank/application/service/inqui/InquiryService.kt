@@ -51,6 +51,13 @@ class InquiryService(
     )
 
     /**
+     * 문의 상태 Dto
+     */
+    data class InquiryStatusUpdateRequest(
+        val status: InquiryStatus
+    )
+
+    /**
      * 서비스 메소드 정의
      */
 
@@ -164,12 +171,21 @@ class InquiryService(
                 message = "\"Inquiry not found with id: $inquiryId\"",
             )
         }
-
-        if (inquiry.user.id != user.id) {
-            throw UnauthorizedException(message = "User does not have permission to delete this inquiry")
-        }
-
         inquiryRepository.deleteById(inquiryId)
+    }
+
+    /**
+     * 문의 상태 변경 for branch
+     */
+    fun updateInquiryStatus(id: Long, status: InquiryStatus): InquiryDto {
+        val inquiry = inquiryRepository.findById(id).orElseThrow {
+            NotFoundException(
+                    message = "해당 문의를 찾을 수 없습니다."
+            )
+        }
+        inquiry.replyStatus = status
+        val updatedInquiry = inquiryRepository.save(inquiry)
+        return inquiryToDto(updatedInquiry)
     }
 
     /**
