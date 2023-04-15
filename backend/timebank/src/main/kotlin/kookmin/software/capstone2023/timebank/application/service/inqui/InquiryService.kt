@@ -117,15 +117,23 @@ class InquiryService(
     fun getUserInquiriesByPeriod(period: Period, userId: Long): List<InquiryDto> {
         val end = LocalDateTime.now()
         val start = end.minusMonths(period.months)
-        val inquiries = inquiryRepository.findByInquiryDateBetweenAndUser(start, end, userId)
+        val inquiries = inquiryRepository.findByInquiryDateBetweenAndUserId(start, end, userId)
         return inquiries.map { inquiryToDto(it) }
     }
 
     /**
-     * 문의 제목 검색 service
+     * 문의 제목 검색 for branch
      */
     fun getInquiryByTitle(title: String): List<InquiryDto> {
         val inquiries = inquiryRepository.findByTitleContainingIgnoreCase(title)
+        return inquiries.map { inquiryToDto(it) }
+    }
+
+    /**
+     * 문의 제목 검색 for user
+     */
+    fun getUserInquiryByTitle(title: String, userId: Long): List<InquiryDto> {
+        val inquiries = inquiryRepository.findByTitleContainingIgnoreCaseAndUserId(title, userId)
         return inquiries.map { inquiryToDto(it) }
     }
 
