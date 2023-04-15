@@ -153,4 +153,19 @@ class InquiryController(
         inquiryService.deleteInquiryByUserId(userId, inquiryId)
         return ResponseEntity.noContent().build()
     }
+
+    /**
+     * 문의 상태 변경 for branch
+     */
+    @PutMapping("/{id}/status")
+    fun updateInquiryStatus(
+        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
+        @PathVariable id: Long,
+        @RequestBody request: InquiryService.InquiryStatusUpdateRequest
+    ): InquiryService.InquiryDto {
+        if (userContext.accountType != AccountType.BRANCH) {
+            throw UnauthorizedException(message = "접근 권한이 없습니다.")
+        }
+        return inquiryService.updateInquiryStatus(id, request.status)
+    }
 }
