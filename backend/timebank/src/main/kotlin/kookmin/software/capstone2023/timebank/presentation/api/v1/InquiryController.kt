@@ -96,11 +96,28 @@ class InquiryController(
     }
 
     /**
-     * 문의 제목 조회
+     * 문의 제목 조회 for branch
      */
     @GetMapping("/search")
-    fun getInquiriesByTitle(@RequestParam("title") title: String): List<InquiryService.InquiryDto> {
+    fun getInquiriesByTitle(
+        @RequestParam("title") title: String
+    ): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiryByTitle(title)
+    }
+
+    /**
+     * 문의 제목 조회 for user
+     */
+    @GetMapping("/users/{userId}/search")
+    fun getUserInquiriesByTitle(
+        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
+        @RequestParam("title") title: String,
+        @PathVariable userId: Long
+    ): List<InquiryService.InquiryDto> {
+        if (userContext.userId != userId) {
+            throw UnauthorizedException(message = "접근 권한이 없습니다.")
+        }
+        return inquiryService.getUserInquiryByTitle(title, userId)
     }
 
     /**
