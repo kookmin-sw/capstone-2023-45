@@ -65,7 +65,7 @@ class CommentController(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @PathVariable userId: Long,
         @PathVariable commentId: Long,
-        @PathVariable id: Long
+        @PathVariable id: Long,
     ): ResponseEntity<Unit> {
         if (userContext.accountType == AccountType.INDIVIDUAL) {
             if (userContext.userId != userId) {

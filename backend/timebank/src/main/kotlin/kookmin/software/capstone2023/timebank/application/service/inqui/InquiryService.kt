@@ -54,7 +54,7 @@ class InquiryService(
      * 문의 상태 Dto
      */
     data class InquiryStatusUpdateRequest(
-        val status: InquiryStatus
+        val status: InquiryStatus,
     )
 
     /**
@@ -171,6 +171,9 @@ class InquiryService(
                 message = "\"Inquiry not found with id: $inquiryId\"",
             )
         }
+        if (user.id != inquiry.user.id) {
+            throw UnauthorizedException(message = "삭제 권한이 없습니다.")
+        }
         inquiryRepository.deleteById(inquiryId)
     }
 
@@ -179,9 +182,7 @@ class InquiryService(
      */
     fun updateInquiryStatus(id: Long, status: InquiryStatus): InquiryDto {
         val inquiry = inquiryRepository.findById(id).orElseThrow {
-            NotFoundException(
-                    message = "해당 문의를 찾을 수 없습니다."
-            )
+            NotFoundException(message = "해당 문의를 찾을 수 없습니다.")
         }
         inquiry.replyStatus = status
         val updatedInquiry = inquiryRepository.save(inquiry)
