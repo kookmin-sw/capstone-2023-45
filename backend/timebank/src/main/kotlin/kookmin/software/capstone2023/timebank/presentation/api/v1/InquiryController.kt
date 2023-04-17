@@ -65,7 +65,7 @@ class InquiryController(
     @GetMapping("/users/{userId}")
     fun getInquiriesByUserId(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
-        @PathVariable userId: Long
+        @PathVariable userId: Long,
     ): List<InquiryService.InquiryDto> {
         if (userContext.accountType == AccountType.INDIVIDUAL) {
             if (userContext.userId != userId) {
@@ -90,7 +90,7 @@ class InquiryController(
     fun getUserInquiriesByPeriod(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @RequestParam("period") period: Period,
-        @PathVariable userId: Long
+        @PathVariable userId: Long,
     ): List<InquiryService.InquiryDto> {
         return inquiryService.getUserInquiriesByPeriod(period, userId)
     }
@@ -100,7 +100,7 @@ class InquiryController(
      */
     @GetMapping("/search")
     fun getInquiriesByTitle(
-        @RequestParam("title") title: String
+        @RequestParam("title") title: String,
     ): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiryByTitle(title)
     }
@@ -112,7 +112,7 @@ class InquiryController(
     fun getUserInquiriesByTitle(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @RequestParam("title") title: String,
-        @PathVariable userId: Long
+        @PathVariable userId: Long,
     ): List<InquiryService.InquiryDto> {
         if (userContext.userId != userId) {
             throw UnauthorizedException(message = "접근 권한이 없습니다.")
@@ -128,7 +128,7 @@ class InquiryController(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @PathVariable id: Long,
         @PathVariable userId: Long,
-        @RequestBody request: InquiryService.InquiryUpdateRequest
+        @RequestBody request: InquiryService.InquiryUpdateRequest,
     ): InquiryService.InquiryDto {
         if (userContext.userId != userId) {
             throw UnauthorizedException(message = "수정 권한이 없습니다.")
@@ -141,15 +141,15 @@ class InquiryController(
      */
     @DeleteMapping("/users/{userId}/{inquiryId}")
     fun deleteInquiryByUserId(
-        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
+//        @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @PathVariable userId: Long,
-        @PathVariable inquiryId: Long
+        @PathVariable inquiryId: Long,
     ): ResponseEntity<Unit> {
-        if (userContext.accountType == AccountType.INDIVIDUAL) {
-            if (userContext.userId != userId) {
-                throw UnauthorizedException(message = "삭제 권한이 없습니다.")
-            }
-        }
+//        if (userContext.accountType == AccountType.INDIVIDUAL) {
+//            if (userContext.userId != userId) {
+//                throw UnauthorizedException(message = "삭제 권한이 없습니다.")
+//            }
+//        }
         inquiryService.deleteInquiryByUserId(userId, inquiryId)
         return ResponseEntity.noContent().build()
     }
@@ -161,7 +161,7 @@ class InquiryController(
     fun updateInquiryStatus(
         @RequestAttribute(RequestAttributes.USER_CONTEXT) userContext: UserContext,
         @PathVariable id: Long,
-        @RequestBody request: InquiryService.InquiryStatusUpdateRequest
+        @RequestBody request: InquiryService.InquiryStatusUpdateRequest,
     ): InquiryService.InquiryDto {
         if (userContext.accountType != AccountType.BRANCH) {
             throw UnauthorizedException(message = "접근 권한이 없습니다.")
