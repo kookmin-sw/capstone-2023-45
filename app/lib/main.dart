@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const TimeBankApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TimeBankApp extends StatelessWidget {
+  const TimeBankApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '시간은행',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     WebViewController controller = WebViewController()
@@ -42,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
+            // TODO: 다른 웹페이지로 이동 방지
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
             }
@@ -49,12 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://flutter.dev'));
+      ..loadRequest(Uri.parse('http://192.168.219.135:3000'));
 
     return Scaffold(
       body: WebViewWidget(
         controller: controller,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
