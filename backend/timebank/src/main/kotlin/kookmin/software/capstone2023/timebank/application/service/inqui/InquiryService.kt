@@ -190,6 +190,17 @@ class InquiryService(
     }
 
     /**
+     * 문의 search (동시 조건 검색)
+     */
+    fun searchInquiries(title: String?, period: Period?, userId: Long?): List<InquiryDto> {
+        val end = LocalDateTime.now()
+        val start = period?.let { end.minusMonths(it.months) }
+        val inquiries = inquiryRepository.findAllByTitleAndPeriodAndUserId(title, start, end, userId)
+        return inquiries.map { inquiryToDto(it) }
+
+    }
+
+    /**
      * 유틸 메소드 정의
      */
     private fun inquiryToDto(inquiry: Inquiry): InquiryDto {
