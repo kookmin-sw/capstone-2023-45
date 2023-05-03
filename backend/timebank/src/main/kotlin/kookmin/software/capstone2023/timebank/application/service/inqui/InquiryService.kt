@@ -197,7 +197,6 @@ class InquiryService(
         val start = period?.let { end.minusMonths(it.months) }
         val inquiries = inquiryRepository.findAllByTitleAndPeriodAndUserId(title, start, end, userId)
         return inquiries.map { inquiryToDto(it) }
-
     }
 
     /**

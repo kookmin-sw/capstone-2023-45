@@ -110,13 +110,12 @@ class InquiryController(
      */
     @GetMapping("/multisearch")
     fun searchInquiries(
-            @RequestParam("title", required = false) title: String?,
-            @RequestParam("period", required = false) period: Period?,
-            @RequestParam("userId", required = false) userId: Long?,
+        @RequestParam("title", required = false) title: String?,
+        @RequestParam("period", required = false) period: Period?,
+        @RequestParam("userId", required = false) userId: Long?,
     ): List<InquiryService.InquiryDto> {
         return inquiryService.searchInquiries(title, period, userId)
     }
-
 
     /**
      * 문의 제목 조회 for user
