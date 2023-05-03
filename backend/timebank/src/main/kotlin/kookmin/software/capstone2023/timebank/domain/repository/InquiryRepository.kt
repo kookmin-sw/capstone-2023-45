@@ -18,10 +18,10 @@ interface InquiryRepository : JpaRepository<Inquiry, Long> {
 
     @Query(
         "SELECT i FROM Inquiry i " +
-        "WHERE (:title is null or i.title LIKE %:title%) " +
-        "AND (:startDate is null or i.inquiryDate >= :startDate) " +
-        "AND (:endDate is null or i.inquiryDate <= :endDate) " +
-        "AND (:userId is null or i.user.id = :userId)",
+            "WHERE (:title is null or i.title LIKE %:title%) " +
+            "AND (:startDate is null or i.inquiryDate >= :startDate) " +
+            "AND (:endDate is null or i.inquiryDate <= :endDate) " +
+            "AND (:userId is null or i.user.id = :userId)",
     )
     fun findAllByTitleAndPeriodAndUserId(
         @Param("title") title: String?,
