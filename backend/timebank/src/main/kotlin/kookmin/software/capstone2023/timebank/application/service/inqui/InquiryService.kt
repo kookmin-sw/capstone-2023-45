@@ -29,6 +29,7 @@ class InquiryService(
         val inquiryDate: LocalDateTime,
         val replyStatus: InquiryStatus,
         val userId: Long,
+        val username: String,
     )
 
     /**
@@ -210,6 +211,7 @@ class InquiryService(
             inquiryDate = inquiry.inquiryDate,
             replyStatus = inquiry.replyStatus,
             userId = inquiry.user.id,
+            username = inquiry.user.name
         )
     }
 }
