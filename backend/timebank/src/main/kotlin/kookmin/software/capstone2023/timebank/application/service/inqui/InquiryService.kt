@@ -211,7 +211,7 @@ class InquiryService(
             inquiryDate = inquiry.inquiryDate,
             replyStatus = inquiry.replyStatus,
             userId = inquiry.user.id,
-            username = inquiry.user.name
+            username = inquiry.user.name,
         )
     }
 }
