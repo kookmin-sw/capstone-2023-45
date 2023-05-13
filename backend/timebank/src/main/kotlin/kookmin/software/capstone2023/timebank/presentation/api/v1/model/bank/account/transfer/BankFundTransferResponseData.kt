@@ -1,4 +1,4 @@
-package kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.transfer
+package kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.account.transfer
 
 import kookmin.software.capstone2023.timebank.domain.model.TransactionStatus
 import java.math.BigDecimal

@@ -1,4 +1,4 @@
-package kookmin.software.capstone2023.timebank.presentation.api.v1
+package kookmin.software.capstone2023.timebank.presentation.api.v1.bank.account.transaction
 
 import kookmin.software.capstone2023.timebank.application.service.bank.account.BankAccountReadService
 import kookmin.software.capstone2023.timebank.application.service.bank.account.transaction.BankAccountTransactionReadService

@@ -1,12 +1,12 @@
-package kookmin.software.capstone2023.timebank.presentation.api.v1
+package kookmin.software.capstone2023.timebank.presentation.api.v1.bank.account.transfer
 
 import kookmin.software.capstone2023.timebank.application.service.bank.transfer.TransferService
 import kookmin.software.capstone2023.timebank.application.service.bank.transfer.TransferServiceImpl
 import kookmin.software.capstone2023.timebank.presentation.api.RequestAttributes
 import kookmin.software.capstone2023.timebank.presentation.api.auth.model.UserAuthentication
 import kookmin.software.capstone2023.timebank.presentation.api.auth.model.UserContext
-import kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.transfer.BankAccountTransferRequestData
-import kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.transfer.BankFundTransferResponseData
+import kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.account.transfer.BankAccountTransferRequestData
+import kookmin.software.capstone2023.timebank.presentation.api.v1.model.bank.account.transfer.BankFundTransferResponseData
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestAttribute
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @UserAuthentication
 @RestController
 @RequestMapping("api/v1/bank/account/transfer")
-class BankTransferController(
+class BankAccountTransferController(
     private val transferService: TransferServiceImpl,
 ) {
     @PostMapping
