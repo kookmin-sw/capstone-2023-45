@@ -4,25 +4,28 @@ import { useSetRecoilState } from "recoil";
 import { headerTitleState } from "../../states/uiState";
 import { PATH } from "../../utils/paths";
 import axios from "axios";
+import { async } from "rxjs";
 
 async function setUserPassWord(password: string) {
   try {
-    const timepayAccessToken = window.localStorage.getItem(
-      "timepay_access_token"
-    );
-    await axios
-      .post(PATH.SERVER + "/api/v1/account", {
-        accessToken: timepayAccessToken,
+    const access_token = window.localStorage.getItem("access_token");
+    await axios({
+      method: "POST",
+      url: PATH.SERVER + "/api/v1/bank/account",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+      data: {
         password: password,
-      })
-      .then((res) => {
-        const {
-          data: { id: accountId, number: accountNumber, balance: balance },
-        } = res;
-        window.localStorage.setItem("account_id", accountId);
-        window.localStorage.setItem("account_number", accountNumber);
-        window.localStorage.setItem("balance", balance);
-      });
+      },
+    }).then((res) => {
+      console.log(`status code : ${res.status}\nresponse data: ${res.data}`);
+      const data = res.data;
+      window.localStorage.setItem("balance", data.balance);
+      window.localStorage.setItem("accountNumber", data.accountNumber);
+      window.localStorage.setItem("bankAccountId", data.bankAccountId);
+    });
   } catch (e) {
     console.error(e);
   }
@@ -39,9 +42,13 @@ const Password = () => {
     setHeaderTitle(null);
   });
   const handleOnClickLinkBtn = useCallback(
-    (path: string, password: string, passwordCert: string) => {
-      if (password === passwordCert) {
-        setUserPassWord(password);
+    async (path: string, password: string, passwordCert: string) => {
+      if (
+        password === passwordCert &&
+        password.length == 4 &&
+        passwordCert.length == 4
+      ) {
+        await setUserPassWord(password);
         navigate(path);
       } else {
         setIsSamePassword(true);
@@ -82,7 +89,7 @@ const Password = () => {
               handleOnClickLinkBtn(PATH.MAIN, password, passwordCert)
             }
           >
-            가입하기
+            계좌생성
           </button>
         </div>
       </div>
