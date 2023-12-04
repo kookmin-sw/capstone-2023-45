@@ -6,6 +6,7 @@ import kookmin.software.capstone2023.timebank.domain.model.*;
 import kookmin.software.capstone2023.timebank.domain.repository.AccountJpaRepository;
 import kookmin.software.capstone2023.timebank.domain.repository.BankAccountJpaRepository;
 import kookmin.software.capstone2023.timebank.domain.repository.BankBranchJpaRepository;
+import kookmin.software.capstone2023.timebank.domain.repository.PayAppRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,14 +27,18 @@ public class BankAccountCreateService {
     private final BankAccountJpaRepository bankAccountRepository;
     private final BankBranchJpaRepository bankBranchJpaRepository;
     private final AccountJpaRepository accountRepository;
+    private final PayAppRepository appJpaRepository;
 
     @Transactional
-    public CreatedBankAccount createBankAccount(Long accountId, String password, Long branchId) {
+    public CreatedBankAccount createBankAccount(Long accountId, String password, String appName, Long branchId) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new NotFoundException("계정을 찾을 수 없습니다."));
 
         BankBranch branch = bankBranchJpaRepository.findById(branchId)
                 .orElseThrow(() -> new NotFoundException("지점이 존재하지 않습니다."));
+
+        PayApp app = appJpaRepository.findByName(appName)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 앱입니다."));
 
         BankAccount bankAccount = new BankAccount(
                 account,
@@ -39,7 +46,7 @@ public class BankAccountCreateService {
                 new BigDecimal(300.0),
                 account.getName(),
                 (account.getType() == AccountType.INDIVIDUAL) ? OwnerType.USER : OwnerType.BRANCH,
-                generateAccountNumber(accountId, branchId),
+                generateAccountNumber(accountId, branchId, app.getId()),
                 password
         );
 
@@ -57,13 +64,14 @@ public class BankAccountCreateService {
         );
     }
 
-    private String generateAccountNumber(Long accountId, Long branchId) {
+    private String generateAccountNumber(Long accountId, Long branchId, Long appId) {
+        String appCode = String.format("%02d", appId);
         String accountCode = String.format("%02d", accountId);
         String branchCode = String.format("%02d", branchId);
         String randomCode = String.valueOf((int) (Math.random() * 90) + 10);
 
         // 지점-계좌-랜덤코드
-        String accountNumber = branchCode + "-" + accountCode + "-" + randomCode;
+        String accountNumber = appCode + "-" + branchCode + "-" + accountCode + "-" + randomCode;
 
         if (bankAccountReadService.isBankAccountNumberExists(accountNumber)) {
             throw new ConflictException("계좌 개설중 문제가 발생하였습니다. 다시 시도해주세요");
